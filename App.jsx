@@ -9,7 +9,7 @@ import Screen3 from './Screens/screen3';
 const App = () => {
   return (
     <View style={styles.container}>
-      <Screen2 />
+      <Screen3 />
     </View>
   );
 }
