@@ -12,42 +12,60 @@ import { useEffect, useRef } from 'react';
 const Screen2 = () => {
 
     const navigation = useNavigation();
+    const avatarAnimation = useRef(new Animated.Value(0)).current;
+    const textAnimation = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
+        startAnimation();
         const timeout = setTimeout(() => {
             navigation.navigate('Screen3');
         }, 20000);
 
         return () => clearTimeout(timeout);
-    }, [navigation]);
-
-    const avatarAnimation = useRef(new Animated.Value(0)).current;
-
-    useEffect(() => {
-        startAnimation();
     }, []);
 
     const startAnimation = () => {
-        Animated.timing(avatarAnimation, {
-            toValue: 1,
-            duration: 500,
-            useNativeDriver: true,
-        }).start();
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(avatarAnimation, {
+                    toValue: 1,
+                    duration: 2000, // Adjust the duration as needed (slower speed)
+                    useNativeDriver: true,
+                }),
+                Animated.delay(3000), // Delay before starting the exit animation (adjust as needed)
+                Animated.parallel([
+                    Animated.timing(avatarAnimation, {
+                        toValue: 0,
+                        duration: 2000, // Adjust the duration as needed (slower speed)
+                        useNativeDriver: true,
+                    }),
+                    Animated.timing(textAnimation, {
+                        toValue: 1,
+                        duration: 2000, // Adjust the duration as needed (slower speed)
+                        useNativeDriver: true,
+                    }),
+                ]),
+                Animated.delay(3000), // Delay before starting the next loop (adjust as needed)
+            ]),
+            { iterations: -1 } // -1 for an infinite loop
+        ).start();
     };
-
     const avatarTranslateX = avatarAnimation.interpolate({
         inputRange: [0, 1],
-        outputRange: [200, 0],
+        outputRange: [200, -200], // Adjust the values to control the entry and exit positions
     });
 
-
+    const textTranslateX = textAnimation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [200, -200], // Adjust the values to control the entry and exit positions
+    });
 
     return (
         <SafeAreaView style={styles.container}>
             <ImageBackground source={award_bg} style={styles.imageBackground}>
                 <Animated.View style={[styles.avatarContainer, { transform: [{ translateX: avatarTranslateX }] }]}>
                     <Image source={avtar2} style={styles.avatarImage} resizeMode='contain' />
-                    <Text style={styles.avatarText}>D-lister</Text>
+                    <Animated.Text style={[styles.avatarText, { transform: [{ translateX: textTranslateX }] }]}>D-lister</Animated.Text>
                 </Animated.View>
                 <Text style={styles.text}>Gave U Some Love</Text>
                 <Image source={main_heart} style={styles.heart} resizeMode='contain'/>
@@ -63,6 +81,7 @@ const Screen2 = () => {
     );
 }
 
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -76,10 +95,9 @@ const styles = StyleSheet.create({
         position: 'absolute',
         flexDirection: 'row',
         alignItems: 'center',
-        top: 20,
-        right: 20,
-        opacity: 0,
-        bottom: 0,
+        top: 60,
+        right: 135,
+        //backgroundColor: 'rgba(255, 255, 255, 0.8)', // Add background color to ensure visibility
     },
     avatarImage: {
         width: 50,
