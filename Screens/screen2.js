@@ -5,8 +5,22 @@ import girlClap from '../Images/girlClap.png'
 import awardPlatform from '../Images/awardPlatform.png'
 import main_heart from '../Images/main_heart.png'
 import arrow from '../Images/arrow.png'
+import { useNavigation } from '@react-navigation/native';
 
 const Screen2 = () => {
+
+    const navigation = useNavigation();
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            navigation.navigate('Screen3');
+        }, 20000);
+
+        return () => clearTimeout(timeout);
+    }, [navigation]);
+
+
+
     return (
         <SafeAreaView style={styles.container}>
             <ImageBackground source={award_bg} style={styles.imageBackground}>

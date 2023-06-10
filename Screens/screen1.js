@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, StyleSheet, ImageBackground,Image, View, Text } from 'react-native';
 import award_bg from '../Images/award_bg.png';
 import castingLogo from '../Images/castingLogo.png'
 import girlClap from '../Images/girlClap.png'
 import awardPlatform from '../Images/awardPlatform.png'
+import {useNavigation} from '@react-navigation/native'
 
 const Screen1 = () => {
+
+  const navigation = useNavigation()
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      navigation.navigate('Screen2');
+    }, 3000);
+    return () => clearTimeout(timeout)
+  }, [navigation]);
+
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground source={award_bg} style={styles.imageBackground}>

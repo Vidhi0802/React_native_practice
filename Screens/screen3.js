@@ -5,8 +5,13 @@ import girlClap from '../Images/girlClap.png'
 import awardPlatform from '../Images/awardPlatform.png'
 import main_heart from '../Images/main_heart.png'
 import arrow from '../Images/arrow.png'
+import { useNavigation } from '@react-navigation/native';
 
 const Screen3 = () => {
+
+    const navigation = useNavigation();
+
+
     return (
         <SafeAreaView style={styles.container}>
             <ImageBackground source={award_bg} style={styles.imageBackground}>
