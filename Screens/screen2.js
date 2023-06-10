@@ -1,11 +1,13 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, ImageBackground, Image, View, Text, TouchableOpacity } from 'react-native';
+import { SafeAreaView, StyleSheet, ImageBackground, Image, View, Text, TouchableOpacity,Animated } from 'react-native';
 import award_bg from '../Images/award_bg.png'
 import girlClap from '../Images/girlClap.png'
 import awardPlatform from '../Images/awardPlatform.png'
 import main_heart from '../Images/main_heart.png'
 import arrow from '../Images/arrow.png'
+import avtar2 from '../Images/avtar2.png'
 import { useNavigation } from '@react-navigation/native';
+import { useEffect, useRef } from 'react';
 
 const Screen2 = () => {
 
@@ -19,11 +21,34 @@ const Screen2 = () => {
         return () => clearTimeout(timeout);
     }, [navigation]);
 
+    const avatarAnimation = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        startAnimation();
+    }, []);
+
+    const startAnimation = () => {
+        Animated.timing(avatarAnimation, {
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const avatarTranslateX = avatarAnimation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [200, 0],
+    });
+
 
 
     return (
         <SafeAreaView style={styles.container}>
             <ImageBackground source={award_bg} style={styles.imageBackground}>
+                <Animated.View style={[styles.avatarContainer, { transform: [{ translateX: avatarTranslateX }] }]}>
+                    <Image source={avtar2} style={styles.avatarImage} resizeMode='contain' />
+                    <Text style={styles.avatarText}>D-lister</Text>
+                </Animated.View>
                 <Text style={styles.text}>Gave U Some Love</Text>
                 <Image source={main_heart} style={styles.heart} resizeMode='contain'/>
                 <Image source={awardPlatform} style={styles.stage} resizeMode='contain' />
@@ -46,6 +71,26 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    avatarContainer: {
+        position: 'absolute',
+        flexDirection: 'row',
+        alignItems: 'center',
+        top: 20,
+        right: 20,
+        opacity: 0,
+        bottom: 0,
+    },
+    avatarImage: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+    },
+    avatarText: {
+        fontSize: 18,
+        fontWeight: '400',
+        marginLeft: 10,
+        color: 'yellow',
     },
     heart: {
         position: 'absolute',

@@ -1,4 +1,5 @@
-import React from 'react';
+import React from 'react'
+import {useState, useEffect} from 'react'
 import { SafeAreaView, StyleSheet, ImageBackground, Image, View, Text, TouchableOpacity } from 'react-native';
 import award_bg from '../Images/award_bg.png'
 import girlClap from '../Images/girlClap.png'
@@ -11,6 +12,22 @@ const Screen3 = () => {
 
     const navigation = useNavigation();
 
+    const [count, setCount] = useState(15000);
+
+    useEffect(() => {
+        let start = 15000;
+        const interval = setInterval(() => {
+            if (start < 40000) {
+                start += 100;
+                setCount(start);
+            } else {
+                clearInterval(interval);
+            }
+        }, 100);
+
+        return () => clearInterval(interval);
+    }, []);
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -22,7 +39,7 @@ const Screen3 = () => {
                 <TouchableOpacity>
                     <Image source={arrow} style={styles.arrow} resizeMode='contain' />
                 </TouchableOpacity>
-                <Text style={styles.text2}>15000</Text>
+                <Text style={styles.text2}>{count}</Text>
             </ImageBackground>
 
         </SafeAreaView>
