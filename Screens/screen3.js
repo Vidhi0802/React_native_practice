@@ -36,7 +36,7 @@ const Screen3 = () => {
                 <Image source={main_heart} style={styles.heart} resizeMode='contain' />
                 <Image source={awardPlatform} style={styles.stage} resizeMode='contain' />
                 <Image source={girlClap} style={styles.girl} resizeMode='contain' />
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Screen1')}>
                     <Image source={arrow} style={styles.arrow} resizeMode='contain' />
                 </TouchableOpacity>
                 <Text style={styles.text2}>{count}</Text>
